@@ -22,7 +22,6 @@
 @property id<TTFormatViewControllerDelegate> delegate;
 @property IBOutlet NSSegmentedControl *escapeControl;
 @property IBOutlet NSSegmentedControl *separatorControl;
-@property IBOutlet NSSegmentedControl *decimalControl;
 @property IBOutlet NSPopUpButton *encodingMenu;
 @property IBOutlet NSButton *useFirstRowAsHeaderCheckbox;
 

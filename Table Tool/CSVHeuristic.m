@@ -45,7 +45,6 @@
 -(void)setConfigs{
     _config1 = [[CSVConfiguration alloc]init];
     _config1.columnSeparator = @",";
-    _config1.decimalMark = @".";
     
     _config10 = _config1.copy;
     _config10.escapeCharacter = @"\\";
@@ -55,7 +54,6 @@
     
     _config2 = [[CSVConfiguration alloc]init];
     _config2.columnSeparator = @";";
-    _config2.decimalMark = @",";
     
     _config5 = _config2.copy;
     _config5.escapeCharacter = @"\\";
@@ -65,20 +63,17 @@
     
     _config3 = [[CSVConfiguration alloc]init];
     _config3.columnSeparator = @"\t";
-    _config3.decimalMark = @".";
     
     _config8 = _config3.copy;
     _config8.quoteCharacter = @"";
     
     _config4 = [[CSVConfiguration alloc]init];
     _config4.columnSeparator = @"\t";
-    _config4.decimalMark = @",";
     
     _config9 = _config4.copy;
     _config9.quoteCharacter = @"";
     
     _config11 = _config1.copy;
-    _config11.decimalMark = @",";
 }
 
 -(void)initializeArrays{

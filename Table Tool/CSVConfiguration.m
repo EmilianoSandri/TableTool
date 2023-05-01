@@ -17,7 +17,6 @@
         _columnSeparator = @",";
         _quoteCharacter = @"\"";
         _escapeCharacter = @"\"";
-        _decimalMark = @".";
         _firstRowAsHeader = NO;
     }
     return self;
@@ -27,7 +26,6 @@
     CSVConfiguration *copy = [[CSVConfiguration allocWithZone:zone]init];
     copy->_encoding = _encoding;
     copy->_columnSeparator = _columnSeparator;
-    copy->_decimalMark = _decimalMark;
     copy->_escapeCharacter = _escapeCharacter;
     copy->_quoteCharacter = _quoteCharacter;
     copy->_firstRowAsHeader = _firstRowAsHeader;
@@ -35,8 +33,8 @@
 }
 
 -(NSString *)description {
-    return [NSString stringWithFormat:@"separator: \'%@\', quote: \'%@\', escape: \'%@\', decimal: \'%@\', firstAsHeader: %@",
-            _columnSeparator, _quoteCharacter, _escapeCharacter, _decimalMark, _firstRowAsHeader ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"separator: \'%@\', quote: \'%@\', escape: \'%@\', firstAsHeader: %@",
+            _columnSeparator, _quoteCharacter, _escapeCharacter, _firstRowAsHeader ? @"YES" : @"NO"];
 }
 
 +(NSArray<NSArray*>*)supportedEncodings {

@@ -26,7 +26,6 @@
     self.encodingMenu.enabled = enabled;
     self.escapeControl.enabled = enabled;
     self.separatorControl.enabled = enabled;
-    self.decimalControl.enabled = enabled;
     self.useFirstRowAsHeaderCheckbox.enabled = enabled;
 }
 
@@ -37,7 +36,6 @@
     }else{
         _config.columnSeparator = [self.separatorControl labelForSegment:[self.separatorControl selectedSegment] ];
     }
-    _config.decimalMark = [self.decimalControl labelForSegment:[self.decimalControl selectedSegment]];
     
     if ([self.escapeControl selectedSegment] == 0 || [self.escapeControl selectedSegment] == 1) {
         _config.quoteCharacter = @"\"";
@@ -69,12 +67,6 @@
         [_separatorControl selectSegmentWithTag:1];
     }else {
         [_separatorControl selectSegmentWithTag:2];
-    }
-    
-    if([_config.decimalMark isEqualToString:@"."]){
-        [_decimalControl selectSegmentWithTag:0];
-    }else{
-        [_decimalControl selectSegmentWithTag:1];
     }
     
     if([_config.escapeCharacter isEqualToString:@"\""]){

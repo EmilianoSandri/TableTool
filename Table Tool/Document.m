@@ -245,9 +245,6 @@
     if(_data.count >= rowIndex+1) {
         NSArray *rowArray = _data[rowIndex];
         if(rowArray.count >= tableColumn.identifier.integerValue+1){
-            if([rowArray[tableColumn.identifier.integerValue] isKindOfClass:[NSDecimalNumber class]]) {
-                return [(NSDecimalNumber *)rowArray[tableColumn.identifier.integerValue] descriptionWithLocale:@{NSLocaleDecimalSeparator:self.csvConfig.decimalMark}];
-            }
             return rowArray[tableColumn.identifier.integerValue];
         }
     }
@@ -288,14 +285,10 @@
     if(![object isEqualTo:rowArray[tableColumn.identifier.integerValue]]){
         [self dataGotEdited];
     }
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"^\\s*[+-]?(\\d+\\%@?\\d*|\\d*\\%@?\\d+)([eE][+-]?\\d+)?\\s*$",self.csvConfig.decimalMark,self.csvConfig.decimalMark] options:0 error:NULL];
+   
+    // TODO: Set type straight at the source, now every cell is string
     NSString *userInputValue = (NSString *)object;
-    if([regex numberOfMatchesInString:userInputValue options:0 range:NSMakeRange(0, [userInputValue length])] == 1){
-        rowArray[tableColumn.identifier.integerValue] = [NSDecimalNumber decimalNumberWithString:userInputValue locale:@{NSLocaleDecimalSeparator:self.csvConfig.decimalMark}];
-    }else{
-        rowArray[tableColumn.identifier.integerValue] = userInputValue;
-    }
+    rowArray[tableColumn.identifier.integerValue] = userInputValue;
     
     _data[rowIndex] = rowArray;
     if (shouldReload) [self.tableView reloadData];

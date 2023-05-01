@@ -43,7 +43,7 @@
         XCTAssertEqual(line.count, 3, "Read line should have 3 objects.");
         if(count == 3){
             for(int i=0;i<3;i++){
-                XCTAssertTrue([line[i] isKindOfClass:[NSDecimalNumber class]], "Last line should contain 3 decimal numbers.");
+                XCTAssertTrue([line[i] isKindOfClass:[NSString class]], "Line should contain a string.");
             }
         }
     }
@@ -55,7 +55,6 @@
     NSURL *testFileURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"Reading Test Documents/semicolon-separated" withExtension:@"csv"];
     NSData *testData = [[NSData alloc] initWithContentsOfURL:testFileURL];
     config.columnSeparator = @";";
-    config.decimalMark = @",";
     config.quoteCharacter = @"";
     CSVReader *reader = [[CSVReader alloc]initWithData:testData configuration:config];
     while(!reader.isAtEnd){
@@ -65,7 +64,7 @@
         XCTAssertEqual(line.count, 3, "Read line should have 3 objects.");
         if(count == 3){
             for(int i=0;i<3;i++){
-                XCTAssertTrue([line[i] isKindOfClass:[NSDecimalNumber class]], "Last line should contain 3 decimal numbers.");
+                XCTAssertTrue([line[i] isKindOfClass:[NSString class]], "Line should contain a string.");
             }
         }
     }
@@ -76,7 +75,6 @@
 - (void)testReadQuotedCommaSeparatedCSVFile {
     NSURL *testFileURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"Reading Test Documents/comma-separated-quote" withExtension:@"csv"];
     NSData *testData = [[NSData alloc] initWithContentsOfURL:testFileURL];
-    config.decimalMark = @",";
     CSVReader *reader = [[CSVReader alloc]initWithData:testData configuration:config];
     while(!reader.isAtEnd){
         NSArray *line = [reader readLineWithError:NULL];
@@ -85,7 +83,7 @@
         XCTAssertEqual(line.count, 3, "Read line should have 3 objects.");
         if(count == 2 || count == 3){
             for(int i=0;i<3;i++){
-                XCTAssertTrue([line[i] isKindOfClass:[NSDecimalNumber class]], @"Line should contain 3 decimal numbers.");
+                XCTAssertTrue([line[i] isKindOfClass:[NSString class]], "Line should contain a string.");
             }
         }
     }
@@ -103,8 +101,8 @@
         count++;
         XCTAssertEqual(line.count, 2, "Read line should have 2 objects.");
         if(count == 2){
-            XCTAssertTrue([line[0] isKindOfClass:[NSDecimalNumber class]], @"First object should decimal number.");
-            XCTAssertFalse([line[1] isKindOfClass:[NSDecimalNumber class]], @"Second object should not be decimal number.");
+            XCTAssertTrue([line[0] isKindOfClass:[NSString class]], @"First object should be a string.");
+            XCTAssertTrue([line[1] isKindOfClass:[NSString class]], @"Second object should be a string.");
         }
     }
     XCTAssertEqual(count, 2, "CSVReader should have read 2 lines.");
@@ -122,8 +120,8 @@
         count++;
         XCTAssertEqual(line.count, 2, "Read line should have 2 objects.");
         if(count == 2){
-            XCTAssertTrue([line[0] isKindOfClass:[NSDecimalNumber class]], @"First object should decimal number.");
-            XCTAssertFalse([line[1] isKindOfClass:[NSDecimalNumber class]], @"Second object should not be decimal number.");
+            XCTAssertTrue([line[0] isKindOfClass:[NSString class]], @"First object should be a string.");
+            XCTAssertTrue([line[1] isKindOfClass:[NSString class]], @"Second object should be a string.");
         }
     }
     XCTAssertEqual(count, 2, "CSVReader should have read 2 lines.");
@@ -252,7 +250,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -264,7 +261,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
 }
@@ -275,7 +271,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssert([config.quoteCharacter isEqual:@"\""], "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -288,7 +283,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -301,7 +295,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ';', "Column Separator should be ';'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -314,7 +307,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], '\t', "Column Separator should be '\t'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -327,7 +319,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], '\t', "Column Separator should be '\t'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -340,7 +331,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ';', "Column Separator should be ';'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\\', "Escape character should be '\\'.");
@@ -353,7 +343,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertTrue([config.quoteCharacter isEqualToString:@""], "Quote should be disabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -366,7 +355,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ';', "Column Separator should be ';'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
     XCTAssertTrue([config.quoteCharacter isEqualToString:@""], "Quote should be disabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -379,7 +367,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], '\t', "Column Separator should be '\t'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertTrue([config.quoteCharacter isEqualToString:@""], "Quote should be disabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -392,7 +379,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], '\t', "Column Separator should be '\t'.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
     XCTAssertTrue([config.quoteCharacter isEqualToString:@""], "Quote should be disabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -405,7 +391,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], '.', "Decimal Mark should be '.'.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\\', "Escape character should be '\\'.");
@@ -418,7 +403,6 @@
     CSVHeuristic *heuristic = [[CSVHeuristic alloc] initWithData:testData];
     config = [heuristic calculatePossibleFormat];
     XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-    XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
     XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
     XCTAssertTrue(config.firstRowAsHeader, "First row should be header.");
     XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");
@@ -516,7 +500,6 @@
             CSVHeuristic *heuristic = [[CSVHeuristic alloc]initWithData:testData];
             config = [heuristic calculatePossibleFormat];
             XCTAssertEqual([config.columnSeparator characterAtIndex:0], ',', "Column Separator should be ','.");
-            XCTAssertEqual([config.decimalMark characterAtIndex:0], ',', "Decimal Mark should be ','.");
             XCTAssertEqual([config.quoteCharacter characterAtIndex:0], '\"', "Quote should be enabled.");
             XCTAssertEqual(config.firstRowAsHeader, YES, "First row should be header.");
             XCTAssertEqual([config.escapeCharacter characterAtIndex:0], '\"', "Escape character should be '\"'.");

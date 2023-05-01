@@ -38,11 +38,8 @@
             }
             
             NSString *cellString;
-            if([lineArray[columndIdentifier.integerValue] isKindOfClass:[NSDecimalNumber class]]){
-                cellString = [lineArray[columndIdentifier.integerValue] descriptionWithLocale:@{NSLocaleDecimalSeparator:_config.decimalMark}];
-            }else{
-                cellString = lineArray[columndIdentifier.integerValue];
-            }
+            cellString = lineArray[columndIdentifier.integerValue];
+            
             NSMutableString *temporaryCellValue = [[NSMutableString alloc]init];
 
             if([_config.quoteCharacter isEqualToString:@"\""]) {
